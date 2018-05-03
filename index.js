@@ -1,9 +1,19 @@
 var http = require('http');
-var date = require('./dateModule');
+var fs   = require('fs');
 
 http.createServer(function (req, res) {
-    res.writeHead(200, {'Content-Type':'text/html'});
-    res.write('The date is '+date.myDateTime() + '\n');
-    res.write('\n The World is a Vampire')
-    res.end();
+    fs.readFile('index.html', function (err, data) {
+        res.write(data);
+        res.end();
+    });
+    //
+    fs.appendFile('mynewfile1.txt', 'Hello content!', function (err) {
+        if (err) throw err;
+        console.log('Saved!');
+    });
+    //
+    fs.open('mynewfile2.txt', 'w', function (err, file) {
+        if (err) throw err;
+        console.log('Saved!');
+    });
 }).listen(8080);
